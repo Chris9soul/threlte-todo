@@ -30,7 +30,7 @@
 	"type": "module",
 	"dependencies": {
 		"@threlte/core": "^6.0.0-next.5",
-		"@threlte/extras": "^5.0.0-next.9",
+		"@threlte/extras": "^5.0.0-next.10",
 		"@types/three": "^0.151.0",
 		"three": "^0.152.2"
 	}
