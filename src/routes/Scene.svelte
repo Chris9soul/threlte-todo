@@ -20,11 +20,11 @@
 	const scale = createTransition<Mesh>((ref) => {
 		return {
 			tick(t: number) {
-				// t = 0.5 + t * 0.5
-				t = cubicOut(t)
+				t = 0.5 + t * 0.5
+				// t = cubicOut(t)
 				ref.scale.set(t, t, t)
 			},
-			// easing: cubicOut,
+			easing: cubicOut,
 			duration: 400
 		}
 	})
