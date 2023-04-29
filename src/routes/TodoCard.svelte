@@ -4,14 +4,29 @@
 </script>
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	// import { fade } from 'svelte/transition'
+	import { cubicOut } from 'svelte/easing'
+
+	const scale = ((node: HTMLElement, { delay = 0, duration = 400 }) => {
+		const o = +getComputedStyle(node).opacity
+
+		return {
+			delay,
+			duration,
+			css: (t: number) => {
+				const eased = cubicOut(t) as number
+
+				return `transform: scale(${eased});
+				opacity: ${t * o}`
+			}
+		}
+	})
   
 	export let todo: Todo
 
 	const dispatch = createEventDispatcher()
 </script>
 
-<div class="wrapper">
+<div transition:scale="{{delay: 0, duration: 400}}" class="wrapper">
 	<!-- <h2>Note:</h2> -->
 	<div class="note">
 		<input type="checkbox" checked={todo.done} on:change={() => dispatch('toggleDone')} />
