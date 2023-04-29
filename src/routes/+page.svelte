@@ -15,6 +15,7 @@
 		background-color: rgb(3, 8, 29);
     color: black;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		margin: 0;
 	}
 
 	#app {
