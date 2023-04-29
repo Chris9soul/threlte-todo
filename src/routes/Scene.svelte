@@ -4,34 +4,22 @@
 	import { degToRad } from 'three/src/math/MathUtils'
 	import TodoCard, { type Todo } from './TodoCard.svelte'
 
-	let rotation = 0
-	useFrame((state, delta) => {
-		rotation += delta
-	})
-
 	let lastId = 0
 
-	// This is a function that creates a todo object.
-	const createTodo = (text: string, done = false) => ({ id: ++lastId, text, done })
+	const createTodo = (text: string, done = false, shape: string) => ({ id: ++lastId, text, done, shape })
 
 	let todoText = ''
+	let shape = 'box'
 
-	// The app starts with two todos already created.
-	let todos = [createTodo('Learn Svelte', true), createTodo('Learn Threlte')]
 
-	// This is recomputed when the todos array changes.
-	$: uncompletedCount = todos.filter((t) => !t.done).length
-
-	// This is recomputed when the todos array or uncompletedCount changes.
-	$: status = `${uncompletedCount} of ${todos.length} remaining`
+	let todos = [createTodo('Learn Svelte', true, 'box'), createTodo('Learn Threlte', false, 'sphere')]
 
 	function addTodo() {
-		todos.push(createTodo(todoText))
-		todos = todos // triggers reactivity
-		todoText = '' // clears the input
+		todos.push(createTodo(todoText, false, shape))
+		todos = todos 
+		todoText = '' 
 	}
 
-	// This deletes the todo with a given id.
 	const deleteTodo = (todoId: number) => {
 		todos = todos.filter((t) => t.id !== todoId)
 
@@ -82,17 +70,18 @@
 	outlineColor="#fe3d00"
 	
 />
-<!-- <HTML transform position.y={2}>
-	<h1>Threlte Todo app</h1>
-</HTML> -->
+
 <T.Mesh position={[0, -1, 0]} rotation.y={degToRad(0)}>
 	<T.BoxGeometry args={[12, 3, 1]} />
   <T.MeshStandardMaterial color="#fe3d00"/>
   <HTML transform position.z={0.5}>
     <form on:submit|preventDefault={addTodo}>
       <input size="30" placeholder="Learn Threlte..." bind:value={todoText} />
-      <!-- The Add button is disabled if no text
-           has been entered in the input. -->
+      <select bind:value={shape}>
+				<option value="box">■</option>
+				<option value="sphere">●</option>
+				<option value="cone">▲</option>
+			</select>
       <button disabled={!todoText}>Add</button>
     </form>
   </HTML>
@@ -110,9 +99,19 @@
 					on:toggleDone={() => toggleDone(todo)}
 					/>
 			</HTML>
+			<T.Mesh position={[4.3, 0.8, 0]}>
+				<T.MeshStandardMaterial color={todo.done ? 'gray' : '#fe3d00'} />
+				{#if todo.shape === 'box'}
+				<T.BoxGeometry args={[1, 1, 1]} />
+				{:else if todo.shape === 'sphere'}
+				<T.SphereGeometry args={[0.5, 16, 16]} />
+				{:else if todo.shape === 'cone'}
+				<T.ConeGeometry args={[0.5, 1, 16]} />
+				{/if}
+			</T.Mesh>
 		</Instance>
-	{/each}
-</InstancedMesh>
+		{/each}
+	</InstancedMesh>
 
 <style>
 

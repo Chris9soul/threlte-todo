@@ -12,7 +12,7 @@
 </script>
 
 <div class="wrapper">
-	<h2>Note:</h2>
+	<!-- <h2>Note:</h2> -->
 	<div class="note">
 		<input type="checkbox" checked={todo.done} on:change={() => dispatch('toggleDone')} />
 		<span class:done={todo.done}>{todo.text}</span>
@@ -27,12 +27,13 @@
 	}
 
 	.wrapper {
-		min-width: 23rem;
+		width: 20rem;
+		padding-right: 5rem;
 	}
 
-	h2 {
+	/* h2 {
 		font-size: 1rem;
-	}
+	} */
 
 	.note {
 		padding-left: 1rem;
