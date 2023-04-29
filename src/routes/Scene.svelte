@@ -3,14 +3,14 @@
 	import { HTML, Instance, InstancedMesh, OrbitControls, Text } from '@threlte/extras'
 	import { degToRad } from 'three/src/math/MathUtils'
 	import TodoCard, { type Todo } from './TodoCard.svelte'
-
+	
+	let screenSize: number
+	
 	let lastId = 0
-
-	const createTodo = (text: string, done = false, shape: string) => ({ id: ++lastId, text, done, shape })
-
 	let todoText = ''
 	let shape = 'box'
-
+	
+	const createTodo = (text: string, done = false, shape: string) => ({ id: ++lastId, text, done, shape })
 
 	let todos = [createTodo('Learn Svelte', true, 'box'), createTodo('Learn Threlte', false, 'sphere')]
 
@@ -32,6 +32,8 @@
 
 </script>
 
+<svelte:window bind:innerWidth={screenSize} />
+
 <T.OrthographicCamera
 	makeDefault
 	position={[-3, 0, 10]}
@@ -41,7 +43,7 @@
   bottom={-2}
   near={1}
   far={100}
-	zoom={40}
+	zoom={screenSize < 390 ? 30 : 40}
 	on:create={({ ref }) => {
     ref.lookAt(0, -6, 0)
   }}
@@ -128,6 +130,7 @@
 		padding: 0.5rem 0.5rem;
 		font-size: 1.2rem;
     max-width: 30vw;
+		min-width: 8rem;
 
 	}
 
